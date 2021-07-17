@@ -3,10 +3,99 @@
 Changelog
 ---------
 
+2.1.4
+~~~~~
+
+2021-xx-x • `full history <https://github.com/gorakhargosh/watchdog/compare/v2.1.3...master>`__
+
+- [watchmedo] Fix usage of ``os.setsid()`` and ``os.killpg()`` Unix-only functions.  (`#809 <https://github.com/gorakhargosh/watchdog/pull/809>`_)
+- [mac] Fix missing ``FileModifiedEvent`` on permission or ownership changes of a file.  (`#809 <https://github.com/gorakhargosh/watchdog/pull/814>`_)
+- Thanks to our beloved contributors: @replabrobin, @BoboTiG, @SamSchott
+
+2.1.3
+~~~~~
+
+2021-06-26 • `full history <https://github.com/gorakhargosh/watchdog/compare/v2.1.2...v2.1.3>`__
+
+- Publish macOS ``arm64`` and ``universal2`` wheels. (`#740 <https://github.com/gorakhargosh/watchdog/pull/740>`_)
+- Thanks to our beloved contributors: @kainjow, @BoboTiG
+
+2.1.2
+~~~~~
+
+2021-05-19 • `full history <https://github.com/gorakhargosh/watchdog/compare/v2.1.1...v2.1.2>`__
+
+- [mac] Fix relative path handling for non-recursive watch. (`#797 <https://github.com/gorakhargosh/watchdog/pull/797>`_)
+- [windows] On PyPy, events happening right after ``start()`` were missed. Add a workaround for that. (`#796 <https://github.com/gorakhargosh/watchdog/pull/796>`_)
+- Thanks to our beloved contributors: @oprypin, @CCP-Aporia, @BoboTiG
+
+2.1.1
+~~~~~
+
+2021-05-10 • `full history <https://github.com/gorakhargosh/watchdog/compare/v2.1.0...v2.1.1>`__
+
+- [mac] Fix callback exceptions when the watcher is deleted but still receiving events (`#786 <https://github.com/gorakhargosh/watchdog/pull/786>`_)
+- Thanks to our beloved contributors: @rom1win, @BoboTiG, @CCP-Aporia
+
+
+2.1.0
+~~~~~
+
+2021-05-04 • `full history <https://github.com/gorakhargosh/watchdog/compare/v2.0.3...v2.1.0>`__
+
+- [inotify] Simplify ``libc`` loading (`#776 <https://github.com/gorakhargosh/watchdog/pull/776>`_)
+- [mac] Add support for non-recursive watches in ``FSEventsEmitter`` (`#779 <https://github.com/gorakhargosh/watchdog/pull/779>`_)
+- [watchmedo] Add support for ``--debug-force-*`` arguments to ``tricks`` (`#781 <https://github.com/gorakhargosh/watchdog/pull/781>`_)
+- Thanks to our beloved contributors: @CCP-Aporia, @aodj, @UnitedMarsupials, @BoboTiG
+
+
+2.0.3
+~~~~~
+
+2021-04-22 • `full history <https://github.com/gorakhargosh/watchdog/compare/v2.0.2...v2.0.3>`__
+
+- [mac] Use ``logger.debug()`` instead of ``logger.info()`` (`#774 <https://github.com/gorakhargosh/watchdog/pull/774>`_)
+- Updated documentation links (`#777 <https://github.com/gorakhargosh/watchdog/pull/777>`_)
+- Thanks to our beloved contributors: @globau, @imba-tjd, @BoboTiG
+
+
+2.0.2
+~~~~~
+
+2021-02-22 • `full history <https://github.com/gorakhargosh/watchdog/compare/v2.0.1...v2.0.2>`__
+
+- [mac] Add missing exception objects (`#766 <https://github.com/gorakhargosh/watchdog/pull/766>`_)
+- Thanks to our beloved contributors: @CCP-Aporia, @BoboTiG
+
+
+2.0.1
+~~~~~
+
+2021-02-17 • `full history <https://github.com/gorakhargosh/watchdog/compare/v2.0.0...v2.0.1>`__
+
+- [mac] Fix a segmentation fault when dealing with unicode paths (`#763 <https://github.com/gorakhargosh/watchdog/pull/763>`_)
+- Moved the CI from Travis-CI to GitHub Actions (`#764 <https://github.com/gorakhargosh/watchdog/pull/764>`_)
+- Thanks to our beloved contributors: @SamSchott, @BoboTiG
+
+
+2.0.0
+~~~~~
+
+2021-02-11 • `full history <https://github.com/gorakhargosh/watchdog/compare/v1.0.2...v2.0.0>`__
+
+- Avoid deprecated ``PyEval_InitThreads`` on Python 3.7+ (`#746 <https://github.com/gorakhargosh/watchdog/pull/746>`_)
+- [inotify] Add support for ``IN_CLOSE_WRITE`` events. A ``FileCloseEvent`` event will be fired. Note that ``IN_CLOSE_NOWRITE`` events are not handled to prevent much noise. (`#184 <https://github.com/gorakhargosh/watchdog/pull/184>`_, `#245 <https://github.com/gorakhargosh/watchdog/pull/245>`_, `#280 <https://github.com/gorakhargosh/watchdog/pull/280>`_, `#313 <https://github.com/gorakhargosh/watchdog/pull/313>`_, `#690 <https://github.com/gorakhargosh/watchdog/pull/690>`_)
+- [inotify] Allow to stop the emitter multiple times (`#760 <https://github.com/gorakhargosh/watchdog/pull/760>`_)
+- [mac] Support coalesced filesystem events (`#734 <https://github.com/gorakhargosh/watchdog/pull/734>`_)
+- [mac] Drop support for macOS 10.12 and earlier (`#750 <https://github.com/gorakhargosh/watchdog/pull/750>`_)
+- [mac] Fix an issue when renaming an item changes only the casing (`#750 <https://github.com/gorakhargosh/watchdog/pull/750>`_)
+- Thanks to our beloved contributors: @bstaletic, @lukassup, @ysard, @SamSchott, @CCP-Aporia, @BoboTiG
+
+
 1.0.2
 ~~~~~
 
-202x-12-18 • `full history <https://github.com/gorakhargosh/watchdog/compare/v1.0.1...v1.0.2>`__
+2020-12-18 • `full history <https://github.com/gorakhargosh/watchdog/compare/v1.0.1...v1.0.2>`__
 
 - Wheels are published for GNU/Linux, macOS and Windows (`#739 <https://github.com/gorakhargosh/watchdog/pull/739>`_)
 - [mac] Fix missing ``event_id`` attribute in ``fsevents`` (`#721 <https://github.com/gorakhargosh/watchdog/pull/721>`_)
