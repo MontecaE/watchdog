@@ -1,19 +1,17 @@
-from functools import partial
+from __future__ import annotations
+
+import contextlib
 import gc
 import os
 import threading
+from functools import partial
+
 import pytest
-from . import shell
+
+from .utils import ExpectEvent, Helper, P, StartWatching, TestEventQueue
 
 
-@pytest.fixture()
-def tmpdir(request):
-    path = os.path.realpath(shell.mkdtemp())
-    yield path
-    shell.rm(path, recursive=True)
-
-
-@pytest.fixture()
+@pytest.fixture
 def p(tmpdir, *args):
     """
     Convenience function to join the temporary directory path
@@ -23,7 +21,7 @@ def p(tmpdir, *args):
 
 
 @pytest.fixture(autouse=True)
-def no_thread_leaks():
+def _no_thread_leaks():
     """
     Fail on thread leak.
     We do not use pytest-threadleak because it is not reliable.
@@ -35,7 +33,7 @@ def no_thread_leaks():
 
 
 @pytest.fixture(autouse=True)
-def no_warnings(recwarn):
+def _no_warnings(recwarn):
     """Fail on warning."""
 
     yield
@@ -48,8 +46,35 @@ def no_warnings(recwarn):
             "Not importing directory" in message
             or "Using or importing the ABCs" in message
             or "dns.hash module will be removed in future versions" in message
-            or ("eventlet" in filename and "eventlet" in filename)
+            or "is still running" in message
+            or "eventlet" in filename
         ):
             continue
-        warnings.append("{w.filename}:{w.lineno} {w.message}".format(w=warning))
-    assert not warnings
+        warnings.append(f"{warning.filename}:{warning.lineno} {warning.message}")
+    assert not warnings, warnings
+
+
+@pytest.fixture(name="helper")
+def helper_fixture(tmpdir):
+    with contextlib.closing(Helper(tmp=os.fspath(tmpdir))) as helper:
+        yield helper
+
+
+@pytest.fixture(name="p")
+def p_fixture(helper: Helper) -> P:
+    return helper.joinpath
+
+
+@pytest.fixture(name="event_queue")
+def event_queue_fixture(helper: Helper) -> TestEventQueue:
+    return helper.event_queue
+
+
+@pytest.fixture(name="start_watching")
+def start_watching_fixture(helper: Helper) -> StartWatching:
+    return helper.start_watching
+
+
+@pytest.fixture(name="expect_event")
+def expect_event_fixture(helper: Helper) -> ExpectEvent:
+    return helper.expect_event

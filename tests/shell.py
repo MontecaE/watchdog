@@ -1,42 +1,18 @@
-# coding: utf-8
-#
-# Copyright 2011 Yesudeep Mangalapilly <yesudeep@gmail.com>
-# Copyright 2012 Google, Inc & contributors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 """
-    :module: tests.shell
-    :synopsis: Common shell operations for testing.
-    :author: yesudeep@google.com (Yesudeep Mangalapilly)
+:module: tests.shell
+:synopsis: Common shell operations for testing.
+:author: yesudeep@google.com (Yesudeep Mangalapilly)
+:author: contact@tiger-222.fr (Mickaël Schoentgen)
 """
 
+from __future__ import annotations
+
+import errno
 import os
 import os.path
-import tempfile
 import shutil
-import errno
+import tempfile
 import time
-
-
-# def tree(path='.', show_files=False):
-#    print(path)
-#    padding = ''
-#    for root, directories, filenames in os.walk(path):
-#        print(padding + os.path.basename(root) + os.path.sep)
-#        padding = padding + '   '
-#        for filename in filenames:
-#            print(padding + filename)
 
 
 def cd(path):
@@ -44,20 +20,18 @@ def cd(path):
 
 
 def pwd():
-    path = os.getcwd()
-    print(path)
-    return path
+    return os.getcwd()
 
 
 def mkfile(path):
     """Creates a file"""
-    with open(path, 'ab'):
+    with open(path, "ab"):
         pass
 
 
-def mkdir(path, parents=False):
+def mkdir(path, *, parents=False):
     """Creates a directory (optionally also creates all the parent directories
-  in the path)."""
+    in the path)."""
     if parents:
         try:
             os.makedirs(path)
@@ -68,13 +42,11 @@ def mkdir(path, parents=False):
         os.mkdir(path)
 
 
-def rm(path, recursive=False):
+def rm(path, *, recursive=False):
     """Deletes files or directories."""
     if os.path.isdir(path):
         if recursive:
             shutil.rmtree(path)
-        # else:
-        #    os.rmdir(path)
         else:
             raise OSError(errno.EISDIR, os.strerror(errno.EISDIR), path)
     else:
@@ -86,13 +58,13 @@ def touch(path, times=None):
     if os.path.isdir(path):
         os.utime(path, times)
     else:
-        with open(path, 'ab'):
+        with open(path, "ab"):
             os.utime(path, times)
 
 
 def truncate(path):
     """Truncates a file."""
-    with open(path, 'wb'):
+    with open(path, "wb"):
         os.utime(path, None)
 
 
@@ -110,16 +82,24 @@ def mkdtemp():
     return tempfile.mkdtemp()
 
 
-def ls(path='.'):
+def ls(path="."):
     return os.listdir(path)
 
 
 def msize(path):
     """Modify the file size without updating the modified time."""
-    with open(path, 'w') as w:
-        w.write('')
+    with open(path, "w") as w:
+        w.write("")
     os.utime(path, (0, 0))
     time.sleep(0.4)
-    with open(path, 'w') as w:
-        w.write('0')
+    with open(path, "w") as w:
+        w.write("0")
     os.utime(path, (0, 0))
+
+
+def mount_tmpfs(path):
+    os.system(f"sudo mount -t tmpfs none {path}")
+
+
+def unmount(path):
+    os.system(f"sudo umount {path}")
